@@ -1,6 +1,5 @@
-export const runtime = 'nodejs';
-
-import prisma from '@/lib/prisma';
+// app/api/users/route.js
+import { prisma } from "../../db/db" 
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 
