@@ -17,6 +17,7 @@ export async function GET() {
 
     return NextResponse.json(discounts);
   } catch (error) {
+    console.error('Error fetching discounts:', error);
     return NextResponse.json({ error: 'Failed to fetch discounts' }, { status: 500 });
   }
 }
@@ -25,9 +26,10 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+    console.log('Received body:', body);
+
     const { name, percentage, active } = body;
 
-    // Validate input
     if (!name || typeof percentage !== 'number') {
       return NextResponse.json(
         { error: 'Name and numeric percentage are required' },
@@ -41,18 +43,14 @@ export async function POST(request: Request) {
         percentage,
         active: active ?? true,
       },
-      select: {
-        id: true,
-        name: true,
-        percentage: true,
-        active: true,
-        createdAt: true,
-        updatedAt: true,
-      },
     });
 
     return NextResponse.json(discount, { status: 201 });
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to create discount' }, { status: 500 });
+  } catch (error: any) {
+    console.error('Error creating discount:', error);
+    return NextResponse.json(
+      { error: error?.message || 'Unknown error' },
+      { status: 500 }
+    );
   }
 }
