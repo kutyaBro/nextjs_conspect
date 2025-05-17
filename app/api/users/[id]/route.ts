@@ -96,3 +96,4 @@ export async function DELETE(request, { params }) {
     return NextResponse.json({ error: 'Failed to delete user' }, { status: 500 });
   }
 }
+

@@ -99,3 +99,4 @@ export async function DELETE(request, { params }) {
     return NextResponse.json({ error: 'Failed to delete order' }, { status: 500 });
   }
 }
+

@@ -20,3 +20,5 @@ export async function GET() {
       'Nextjs is pretty easy btw',
   });
 }
+
+
