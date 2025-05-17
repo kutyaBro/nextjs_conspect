@@ -47,6 +47,13 @@ model OrderItem {
   quantity  Int
   price     Float
 }
+model Discount {
+  id         Int    @id @default(autoincrement())
+  name       String
+  percentage Int
+  active     Boolean @default(true)
+}
+
 
 enum OrderStatus {
   PENDING
