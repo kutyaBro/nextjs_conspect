@@ -1,5 +1,5 @@
 // app/api/users/[id]/route.js
-import prisma from '@/lib/prisma';
+import { prisma } from "../../../db/db"
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 

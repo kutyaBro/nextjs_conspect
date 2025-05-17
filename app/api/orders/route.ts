@@ -1,5 +1,4 @@
 export const runtime = 'nodejs';
-
 import { prisma } from "../../db/db" 
 import { NextResponse } from 'next/server';
 
