@@ -1,24 +1,58 @@
-import { NextResponse } from 'next/server';
 import { prisma } from '../../db/db';
+import { NextResponse } from 'next/server';
 
+// GET all discounts
 export async function GET() {
-  const discounts = await prisma.discount.findMany();
-  return NextResponse.json(discounts);
+  try {
+    const discounts = await prisma.discount.findMany({
+      select: {
+        id: true,
+        name: true,
+        percentage: true,
+        active: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    return NextResponse.json(discounts);
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to fetch discounts' }, { status: 500 });
+  }
 }
 
+// POST create a new discount
 export async function POST(request: Request) {
-  const data = await request.json();
-  const newDiscount = await prisma.discount.create({ data });
-  return NextResponse.json(newDiscount);
-}
+  try {
+    const body = await request.json();
+    const { name, percentage, active } = body;
 
-export async function PUT(request: Request) {
-  const data = await request.json();
-  const updated = await prisma.discount.updateMany({ data });
-  return NextResponse.json(updated);
-}
+    // Validate input
+    if (!name || typeof percentage !== 'number') {
+      return NextResponse.json(
+        { error: 'Name and numeric percentage are required' },
+        { status: 400 }
+      );
+    }
 
-export async function DELETE() {
-  const deleted = await prisma.discount.deleteMany();
-  return NextResponse.json(deleted);
+    const discount = await prisma.discount.create({
+      data: {
+        name,
+        percentage,
+        active: active ?? true,
+      },
+      select: {
+        id: true,
+        name: true,
+        percentage: true,
+        active: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    return NextResponse.json(discount, { status: 201 });
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to create discount' }, { status: 500 });
+  }
 }

@@ -47,7 +47,7 @@ model OrderItem {
   quantity  Int
   price     Float
 }
-model Discount {
+model discount {
   id         Int    @id @default(autoincrement())
   name       String
   percentage Int
